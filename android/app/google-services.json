@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "4077636016",
+    "project_id": "findseat-760d4",
+    "storage_bucket": "findseat-760d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4077636016:android:53eadb426ea4b012b36e75",
+        "android_client_info": {
+          "package_name": "com.example.findseat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "4077636016-9neb9ee2r0q412v231mdcaks114nu7br.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.findseat",
+            "certificate_hash": "ce7361742c7619c0d0419f69e2ae8b2ae21263a2"
+          }
+        },
+        {
+          "client_id": "4077636016-epthme30pl3ok5hskk4suotdfsh2otv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFcaLE42qlArRROq2nB3N0ZuDGyVYgQZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "4077636016-epthme30pl3ok5hskk4suotdfsh2otv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
