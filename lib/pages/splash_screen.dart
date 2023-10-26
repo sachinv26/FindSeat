@@ -1,16 +1,13 @@
-import 'dart:async';
-
-import 'package:findseat/pages/login_screen.dart';
-import 'package:findseat/utils/mytheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../utils/mytheme.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
@@ -19,29 +16,21 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   void initState() {
-    // TODO: implement initState
-    _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1000));
-    _animation = CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.bounceOut,
-        reverseCurve: Curves.bounceIn);
+    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
+    _animation = CurvedAnimation(parent: _animationController, curve: Curves.bounceOut, reverseCurve: Curves.bounceIn);
     _animationController.forward();
-    super.initState();
-    Timer(Duration(milliseconds: 2500),()=>Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>LoginScreen())));
     super.initState();
   }
 
   @override
-  void dispose()
-  {
+  void dispose() {
     _animationController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return Scaffold(
       backgroundColor: MyTheme.splash,
       body: Container(
@@ -50,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             scale: _animation,
             child: SvgPicture.asset(
               "assets/icons/splash_icon.svg",
-              height: 80,
+              height: 70,
             ),
           ),
         ),

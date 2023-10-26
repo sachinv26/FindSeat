@@ -1,25 +1,33 @@
-import 'package:findseat/pages/signup_screen.dart';
-import 'package:findseat/utils/mytheme.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../utils/social_buttons.dart';
+import 'package:get/get.dart';
+import 'package:findseat/controllers/auth_controller.dart';
+import 'package:findseat/controllers/input_validators.dart';
+import 'package:findseat/utils/mytheme.dart';
+import 'package:findseat/utils/social_buttons.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final cnfPassController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: MyTheme.splash,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           height: _size.height,
@@ -32,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 20,
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 padding: const EdgeInsets.all(19),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -40,12 +48,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 width: _size.width,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
                       "Create your account",
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 16,
                         color: MyTheme.splash,
                         fontWeight: FontWeight.w600,
                       ),
@@ -53,12 +62,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.black),
+                        controller: nameController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
                           ),
-                          hintStyle: const TextStyle(color: Colors.black54),
                           hintText: "Name",
+                          hintStyle: const TextStyle(color: Colors.black45),
                           fillColor: MyTheme.greyColor,
                           filled: true,
                         ),
@@ -67,60 +79,78 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.black),
+                        controller: emailController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
                           ),
-                          hintStyle: const TextStyle(color: Colors.black54),
                           hintText: "Email Address",
+                          hintStyle: const TextStyle(color: Colors.black45),
                           fillColor: MyTheme.greyColor,
                           filled: true,
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding: const EdgeInsets.only(top: 10),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.black),
+                        controller: passwordController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
                           ),
-                          hintStyle: const TextStyle(color: Colors.black54),
                           hintText: "Password",
+                          hintStyle: const TextStyle(color: Colors.black45),
                           fillColor: MyTheme.greyColor,
                           filled: true,
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15,bottom: 10),
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.black),
+                        controller: cnfPassController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
                           ),
-                          hintStyle: const TextStyle(color: Colors.black54),
                           hintText: "Confirm Password",
+                          hintStyle: const TextStyle(color: Colors.black45),
                           fillColor: MyTheme.greyColor,
                           filled: true,
                         ),
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (InputValidator.validateField("Name", nameController.text.trim()) &&
+                            InputValidator.validateField("Email", emailController.text.trim())) {
+                          if (InputValidator.validatePassword(passwordController.text, cnfPassController.text)) {
+                            AuthController.instance
+                                .registerUser(emailController.text.trim(), passwordController.text.trim());
+                          }
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
-                          primary: MyTheme.splash,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )),
-                      child: Center(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Text(
-                              "LOGIN",
-                              style: TextStyle(fontSize: 16),
-                            ),
+                        primary: MyTheme.splash,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Text(
+                            "SIGNUP",
+                            style: TextStyle(fontSize: 16),
                           ),
                         ),
                       ),
@@ -153,43 +183,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15, bottom: 15),
-                      child: SocialLoginButtons(
-                        onFbClick: () {},
-                        onGoogleClick: () {
-                          // AuthController.instance.googleLogin();
-                        },
-                      ),
+                      child: SocialLoginButtons(onFbClick: () {}, onGoogleClick: () {}),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 10,
               ),
               RichText(
                 text: TextSpan(
                   children: [
                     const TextSpan(
                       text: "Already have an account ? ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,fontSize: 16),
+                      style: TextStyle(fontWeight: FontWeight.w700),
                     ),
                     TextSpan(
                       text: "Login",
-                      style: TextStyle(decoration: TextDecoration.underline,fontSize: 16),
-                      recognizer: TapGestureRecognizer(
-
-                      )..onTap=(){
-                        Navigator.pop(context);
-                      },
+                      style: const TextStyle(decoration: TextDecoration.underline, fontWeight: FontWeight.w700),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Get.back();
+                        },
                     ),
                     const TextSpan(
-                        text: " here.",
-                        style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16)
-                    )
+                      text: " here.",
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
                   ],
                 ),
-              ),
+              )
             ],
           ),
         ),
